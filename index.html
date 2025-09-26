@@ -1,53 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jasvin Kaur</title>
   <style>
+    /* Background */
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
       margin: 0;
-      padding: 0;
+      font-family: "Poppins", sans-serif;
+      color: #333;
+      background: linear-gradient( rgb(225, 167, 126), #c1585c, #fad0c4, #e99bd8, #b4a1df);
+      background-size: 300% 300%;
+      animation: gradientShift 18s ease infinite;
     }
+    @keyframes gradientShift { 
+        0% { background-position: 0% 50%; } 
+        50% { background-position: 100% 50%; } 
+        100% { background-position: 0% 50%; } 
+    }
+
+    /* Hero */
     header {
-      background: #b92828;
-      color: rgb(237, 204, 191);
-      padding: 1em;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
     }
+    header h1 {
+      font-size: 6rem;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    header p {
+      font-size: 2rem;
+      margin-top: 1em;
+    }
+
+    /* Sections */
     section {
-      padding: 2em;
+      padding: 3em 1em;
+      max-width: 1200px;
+      font-size: 1.4rem;
+      color: white;
+      margin: auto;
+      text-align: center;
     }
-    a {
-      color: #814aad;
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1em;
+      color: #fff;
+    }
+
+    /* Projects */
+    #project-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .card {
+      width: 220px;     /* phone-like width */
+      height: 380px;    /* phone-like tall */
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(160deg, #5d2f7a, #a18cd1);
+      color: white;
+      padding: 20px;
+      transition: transform 0.6s, background 0.6s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      background: linear-gradient(160deg, #814aad, #d8b4fe);
+    }
+    .card a {
       text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .card p {
+      margin-top: 1em;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    /* Contact Form */
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: rgba(255,255,255,0.1);
+      padding: 2em;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: "Poppins", sans-serif;
+    }
+    button {
+      padding: 12px 25px;
+      background: #814aad;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #5d2f7a;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 { font-size: 3.5rem; }
+      header p { font-size: 1.4rem; }
+      .card { width: 180px; height: 320px; }
+    }
+    @media (max-width: 480px) {
+      header h1 { font-size: 2.5rem; }
+      .card { width: 150px; height: 280px; }
     }
   </style>
 </head>
 <body>
+  <!-- Hero -->
   <header>
     <h1>Hi, I'm Jasvin</h1>
-    <p>Welcome to my personal website 🚀</p>
+    <p>AI/ML • Full Stack • Cloud • Research</p>
   </header>
 
-  <section>
-    <h2>About Me</h2>
-    <p>I’m learning AI/ML, working on projects, and solving problems.</p>
-  </section>
-
+  <!-- Projects -->
   <section>
     <h2>Projects</h2>
-    <ul>
-      <li><a href="https://github.com/j225kaur/Argumint"> Argumint</a></li>
-      <li><a href="https://github.com/j225kaur/GitHub-repo-search-tool">GitHub Repo Search Tool</a></li>
-    </ul>
+    <div id="project-container">
+      <div class="card">
+        <a href="https://github.com/j225kaur/Argumint">Argumint</a>
+        <p>Debate-style argument mining tool leveraging NLP for extracting structured opinions.</p>
+      </div>
+      <div class="card">
+        <a href="https://github.com/j225kaur/GitHub-repo-search-tool">Repo Search Tool</a>
+        <p>Search and explore GitHub repositories with filtering and analysis features.</p>
+      </div>
+      <div class="card">
+        <a href="https://github.com/j225kaur/Screen-Time-Analysis-Tool">Screen Time Tool</a>
+        <p>Track and visualize daily screen time data for productivity insights.</p>
+      </div>
+      <div class="card">
+        <a href="https://github.com/j225kaur/Netflix-Subscription-Growth-Forecaster">Netflix Forecaster</a>
+        <p>Forecast Netflix subscription growth trends using ML models.</p>
+      </div>
+    </div>
   </section>
 
+  <!-- Contact -->
   <section>
     <h2>Contact</h2>
     <p>Email: j225kaur@uwaterloo.ca</p>
     <p>GitHub: <a href="https://github.com/j225kaur">@j225kaur</a></p>
+
+    <form action="mailto:j225kaur@uwaterloo.ca" method="post" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
   </section>
+
+  <script>
+    function shuffleCards() {
+      let container = document.getElementById("project-container");
+      let cards = Array.from(container.children);
+
+      // Shuffle array
+      for (let i = cards.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+      }
+
+      // Re-append in new order
+      cards.forEach(card => container.appendChild(card));
+    }
+
+    // Shuffle every 7 seconds automatically
+    setInterval(shuffleCards, 7000);
+  </script>
 </body>
 </html>
