@@ -3,200 +3,481 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jasvin Kaur</title>
+  <title>Jasvin Kaur — Portfolio</title>
   <style>
-    /* Background */
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      color: #333;
-      background: linear-gradient( rgb(225, 167, 126), #c1585c, #fad0c4, #e99bd8, #b4a1df);
-      background-size: 300% 300%;
-      animation: gradientShift 18s ease infinite;
+    /* ---------- Base / Aesthetic ---------- */
+    :root{
+      --accent-1:#5d2f7a; /* purple */
+      --accent-2:#a18cd1; /* light purple */
+      --card-1: linear-gradient(135deg,#ffb347,#ffcc33);
     }
-    @keyframes gradientShift { 
-        0% { background-position: 0% 50%; } 
-        50% { background-position: 100% 50%; } 
-        100% { background-position: 0% 50%; } 
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Poppins,system-ui,Arial,sans-serif; color:#111;
+      background: linear-gradient(135deg,#d04348 0%, #dea291 40%, #7660a8 100%);
+      background-size:300% 300%; animation:gradientShift 18s ease infinite;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
+    @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-    /* Hero */
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-    }
-    header h1 {
-      font-size: 6rem;
-      margin: 0;
-      letter-spacing: 2px;
-    }
-    header p {
-      font-size: 2rem;
-      margin-top: 1em;
-    }
+    /* ---------- Top nav (appears on scroll) ---------- */
+    header.site-header{position:sticky; top:0; z-index:60; backdrop-filter: blur(6px);}
+    .nav-bar{display:flex; justify-content:space-between; align-items:center; padding:14px 20px; max-width:1200px; margin:0 auto}
+    .nav-left{display:flex;align-items:center;gap:12px}
+    .logo{font-weight:700; color:white; font-size:20px}
+    .nav-links{display:flex; gap:20px}
+    .nav-links a{color:#ffffff; text-decoration:none; padding:6px 0; position:relative; font-weight:500}
+    .nav-links a::after{content:""; position:absolute; left:0; bottom:-4px; width:100%; height:2px; background:white; transform:scaleX(0); transform-origin:right; transition:transform 0.3s ease}
+    .nav-links a:hover::after{transform:scaleX(1); transform-origin:left}
+    .icon-link img{width:25px; height:25px; transition:opacity 0.3s}
+    .icon-link img:hover{opacity:0.8}
 
-    /* Sections */
-    section {
-      padding: 3em 1em;
-      max-width: 1200px;
-      font-size: 1.4rem;
-      color: white;
-      margin: auto;
-      text-align: center;
-    }
-    h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1em;
-      color: #fff;
-    }
+    /* ---------- Hero ---------- */
+    .hero{height:90vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px}
+    .hero-inner{max-width:920px}
+    .hero h1{font-size:clamp(40px,8vw,96px); margin:0; color:white; letter-spacing:1px}
+    .hero p{color:rgba(255,255,255,0.95); font-size:18px; margin-top:12px}
 
-    /* Projects */
-    #project-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-    }
-    .card {
-      width: 220px;     /* phone-like width */
-      height: 380px;    /* phone-like tall */
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(160deg, #5d2f7a, #a18cd1);
-      color: white;
-      padding: 20px;
-      transition: transform 0.6s, background 0.6s;
-    }
-    .card:hover {
-      transform: scale(1.05);
-      background: linear-gradient(160deg, #814aad, #d8b4fe);
-    }
-    .card a {
-      text-decoration: none;
-      color: white;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-    .card p {
-      margin-top: 1em;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
+    /* ---------- Chat box (improved UI) ---------- */
+    .chat-card{background:rgba(255,255,255,0.08); padding:18px; border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,0.18); margin-top:22px}
+    .chat-log{height:240px; overflow:auto; padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); border-radius:10px}
+    .msg{max-width:80%; margin:8px 0; padding:10px 12px; border-radius:12px}
+    .msg.bot{background:rgba(255,255,255,0.06); color:white; align-self:flex-start}
+    .msg.user{background:linear-gradient(90deg, #c363dc, #905480); color:white; align-self:flex-end}
+    .chat-controls{display:flex; gap:8px; margin-top:12px}
+    .chat-input{flex:1; padding:10px 12px; border-radius:10px; border:none}
+    .chat-send{background:var(--accent-1); color:white; padding:10px 14px; border-radius:10px; border:none}
+    .suggestions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+    .suggestion{background:rgba(255,255,255,0.06); padding:8px 12px; border-radius:999px; cursor:pointer}
 
-    /* Contact Form */
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: rgba(255,255,255,0.1);
-      padding: 2em;
-      border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    }
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: "Poppins", sans-serif;
-    }
-    button {
-      padding: 12px 25px;
-      background: #814aad;
-      color: white;
-      font-size: 1rem;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #5d2f7a;
-    }
+    /* ---------- Sections ---------- */
+    section{padding:60px 18px; max-width:1200px; margin:0 auto}
+    h2.section-title{font-size:28px; margin-bottom:2px; color:#fff; text-align:center}
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      header h1 { font-size: 3.5rem; }
-      header p { font-size: 1.4rem; }
-      .card { width: 180px; height: 320px; }
-    }
-    @media (max-width: 480px) {
-      header h1 { font-size: 2.5rem; }
-      .card { width: 150px; height: 280px; }
-    }
+    /* ---------- Project cards (deck-like, flip) ---------- */
+    #project-container{position:relative; height:360px; display:flex; align-items:center; justify-content:center; text-align: center}
+    .deck{position:relative; width:920px; height:340px; margin: 10px 10px 120px; align-items:center; justify-content:center; display: flex;}
+    .project-wrapper{position:absolute; left:50%; top:20%; transform-origin:center center; transition:transform 700ms cubic-bezier(.2,.9,.2,1);}    
+
+    .project-card{width:200px; height:320px; perspective:1400px; margin:0 0 10px}
+    .card-inner{width:100%; height:100%; border-radius:18px; position:relative; transform-style:preserve-3d; transition: transform 600ms; box-shadow:0 18px 40px rgba(0,0,0,0.2)}
+    .card-face{position:absolute; inset:0; border-radius:18px; backface-visibility:hidden; display:flex; align-items:center; justify-content:center; padding:16px; color:white}
+    .card-front{background:linear-gradient(160deg,#b26edd,#5f1265); font-weight:700; font-size:18px; text-align:center}
+    .card-back{background:#7f3fa8; color:#ffffff; transform:rotateY(180deg); padding:18px; font-size:14px; text-align:left; font-weight:300}
+
+    .project-wrapper:hover .card-inner{transform:rotateY(180deg)}
+
+    /* small screen adjustments */
+    @media (max-width:900px){ .deck{width:92%} .project-card{width:160px;height:260px} }
+    @media (max-width:520px){ .hero h1{font-size:34px} .project-card{width:140px;height:220px} }
+
+    /* ---------- Contact / Experience ---------- */
+    .contact-card{background:rgba(204, 68, 4, 0.06); padding:20px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.12); color:white; margin:0 auto; text-align:center; max-width:600px}
+    .experience-list{max-width:900px; margin:20px auto; text-align:left; color:white}
+    .exp-item{background:rgba(255,255,255,0.04); padding:14px; border-radius:12px; margin-bottom:12px; margin-top:6px;  }
+
+    /* utility */
+    a.button{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent-1); color:white; text-decoration:none}
+
   </style>
 </head>
 <body>
-  <!-- Hero -->
-  <header>
-    <h1>Hi, I'm Jasvin</h1>
-    <p>AI/ML • Full Stack • Cloud • Research</p>
+  <!-- Header with nav that appears on scroll (sticky) -->
+  <header class="site-header">
+    <div class="nav-bar">
+      <div class="nav-left">
+        <a href="/resume.pdf" target="_blank" class="icon-link" title="Download Resume"><img src="https://img.icons8.com/?size=100&id=87836&format=png&color=FFFFFF" alt="Download Resume"></a>
+        <a href="https://www.linkedin.com/in/jasvin-kaur" target="_blank" class="icon-link" title="LinkedIn"><img src="https://img.icons8.com/?size=100&id=M1YqkaPy5GlN&format=png&color=FFFFFF" alt="LinkedIn"></a>
+        <a href="https://github.com/j225kaur" target="_blank" class="icon-link" title="GitHub"><img src="https://img.icons8.com/?size=100&id=YSWCDCSF4H3N&format=png&color=FFFFFF" alt="GitHub"></a>
+        <div class="logo">Jasvin Kaur</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- Projects -->
-  <section>
-    <h2>Projects</h2>
-    <div id="project-container">
-      <div class="card">
-        <a href="https://github.com/j225kaur/Argumint">Argumint</a>
-        <p>Debate-style argument mining tool leveraging NLP for extracting structured opinions.</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/j225kaur/GitHub-repo-search-tool">Repo Search Tool</a>
-        <p>Search and explore GitHub repositories with filtering and analysis features.</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/j225kaur/Screen-Time-Analysis-Tool">Screen Time Tool</a>
-        <p>Track and visualize daily screen time data for productivity insights.</p>
-      </div>
-      <div class="card">
-        <a href="https://github.com/j225kaur/Netflix-Subscription-Growth-Forecaster">Netflix Forecaster</a>
-        <p>Forecast Netflix subscription growth trends using ML models.</p>
-      </div>
-    </div>
-  </section>
+  <!-- HERO -->
+  <main id="home">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Hi, I'm Jasvin</h1>
+        <p>AI/ML • Full Stack • Cloud • Research — currently with the CNS team at Nokia (Full Stack ML/AI Cloud Intern).</p>
 
-  <!-- Contact -->
-  <section>
-    <h2>Contact</h2>
-    <p>Email: j225kaur@uwaterloo.ca</p>
-    <p>GitHub: <a href="https://github.com/j225kaur">@j225kaur</a></p>
+        <!-- Chat widget (centered) -->
+        <div id="chat" class="chat-card" style="margin-top:22px">
+          <div style="display:flex; flex-direction:column; gap:8px">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <strong style="color:white">Ask Me Anything</strong>
+              <div style="font-size:12px; color:rgba(255,255,255,0.8)">Try: <em>"Who are you?"</em></div>
+            </div>
 
-    <form action="mailto:j225kaur@uwaterloo.ca" method="post" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
+            <div id="chat-box" class="chat-card">
+              <div id="chat-log" class="chat-log" aria-live="polite"></div>
+
+              <!-- quick suggestions like ChatGPT -->
+              <div class="suggestions" id="suggestions">
+                <div style="color:white;" class="suggestion" data-q="hi">Hi</div>
+                <div style="color:white;" class="suggestion" data-q="Who are you?">Who are you?</div>
+                <div style="color:white;" class="suggestion" data-q="joke">Tell me a joke</div>
+                <div style="color:white;" class="suggestion" data-q="work">work</div>
+                <div style="color:white;" class="suggestion" data-q="What are your projects?">What are your projects?</div>
+                <div style="color:white;" class="suggestion" data-q="Tell me about ArguMint">Tell me about ArguMint</div>
+              </div>
+
+              <!-- chat input -->
+              <div class="chat-controls" style="margin-top:12px">
+                <input id="chat-input" class="chat-input" placeholder="Ask me anything..." aria-label="Ask me anything" />
+                <button id="chat-send" class="chat-send">
+                  <img src="https://img.icons8.com/?size=100&id=6dUeke4zEFI1&format=png&color=FFFFFF" alt="Send" style="width:30px; height:30px;">
+                </button>
+              </div>
+            </div>
+
+            <div style="color:rgba(255,255,255,0.85); font-size:13px">Predefined answers are available offline. If I don't know, I'll reply "I'm still learning".</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS (deck-like) -->
+    <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="deck" id="deck">
+        <!-- project cards will be injected by JS into this deck -->
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2 class="section-title">Experience</h2>
+      <div class="experience-list">
+        <!-- Experience items pulled from resume content -->
+        <div class="exp-item">
+          <strong>Full Stack ML/AI Cloud Intern — Nokia (CNS Team)</strong>
+          <div>Currently working with the CNS team at Nokia as of 2025 — building full-stack ML and cloud solutions.</div>
+        </div>
+
+        <div class="exp-item">
+          <strong>AI Developer Intern — Innovate4good</strong> <span style="float:right">09/2024 – 12/2024</span>
+          <div>Researched and evaluated ML models; integrated FastAPI endpoints and improved image/text pipelines; achieved 95% accuracy on tuned EfficientNet models.</div>
+        </div>
+
+        <div class="exp-item">
+          <strong>Data Scientist Intern — Microsoft Azure (WEA)</strong> <span style="float:right">05/2023 – 08/2023</span>
+          <div>Contributed to an AI chatbot on Azure AI & Cloud; scraped and aggregated 100k+ travel options; improved accessibility features and TTS/STS integration.</div>
+        </div>
+
+        <div class="exp-item">
+          <strong>Web Designer Intern — UW RoboSoccer</strong> <span style="float:right">01/2025 – 04/2025</span>
+          <div>Built responsive sponsor website using React and Tailwind; converted Figma designs into reusable components.</div>
+        </div>
+
+        <div class="exp-item">
+          <strong>Undergraduate Research Assistant — Prof. Bessma Momani</strong>
+          <div>Collected and organized digital data outputs used in policy briefs and research.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2 class="section-title">Want to know me more?</h2>
+      <div class="contact-card">
+        <p style="color: white; margin:0 0 12px 0">Email: <a href="mailto:j225kaur@uwaterloo.ca">j225kaur@uwaterloo.ca</a></p>
+        <p style="margin:0 0 12px 0"> Waterloo, Ontario </p>
+
+        <!-- Formspree form (replace form id) -->
+        <form action="https://formspree.io/f/xblzdppj" method="POST" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:12px">
+          <input type="text" name="name" placeholder="Your name" required style="padding:10px; width:320px; border-radius:8px; border:none">
+          <input type="email" name="email" placeholder="Your email" required style="padding:10px; width:320px; border-radius:8px; border:none">
+          <textarea name="message" rows="4" placeholder="Message" required style="padding:10px; width:320px; border-radius:8px; border:none"></textarea>
+          <button type="submit" class="button">Send</button>
+        </form>
+      </div>
+    </section>
+  </main>
 
   <script>
-    function shuffleCards() {
-      let container = document.getElementById("project-container");
-      let cards = Array.from(container.children);
+    /***** DATA: projects & predefined chat answers (uses resume) *****/
+    const PROJECTS = [
+        { id:'argumint', title:'ArguMint', desc:'AI-powered assistant that retrieves research papers using TF-IDF and cosine similarity.', link:'https://github.com/j225kaur/Argumint' },
+        { id:'repo-search', title:'GitHub Repo Search Tool', desc:'Full-stack Flask + JS tool for searching GitHub repos.', link:'https://github.com/j225kaur/GitHub-repo-search-tool' },
+        { id:'netflix', title:'Netflix Subscription Forecaster', desc:'Time-series forecasting for Netflix subscriptions (ARIMA).', link:'https://github.com/j225kaur/Netflix-Subscription-Growth-Forecaster' }
+    ];
+    // Each project already has a "link" property pointing to its GitHub repo.
+    // In the card rendering code, the project title is wrapped in an <a> tag using this link:
+    // Example: <a href="${p.link}" target="_blank" rel="noopener">${p.title}</a>
 
-      // Shuffle array
-      for (let i = cards.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [cards[i], cards[j]] = [cards[j], cards[i]];
-      }
+    const PREDEFINED_QS = [
+      { keys:['hi','hello','hey','hey there','hi there','hello there'], answer: 'Hello! How can I assist you today?' },
+      { keys:['whats your name','what is your name?','your name?', 'name'], answer: 'Jasvin Kaur' },
+      { keys: ['Jasvin','Jasvin Kaur'], answer: 'That\'s me! 😊 How can I help you?' },
+      { keys:['who are you','who are you?','who r you', 'you are?', 'you are'], answer: 'I am Jasvin Kaur, a Comp Math student at the University of Waterloo and a Full Stack AI/ML Intern. Currently with the CNS team at Nokia.' },
+      { keys:['where have you worked','where have you worked?','work'],
+      answer: 'I have worked at Innovate4good (AI Developer Intern), Microsoft Azure (Data Scientist Intern), and done research at Waterloo.' },
+      { keys:[
+      'what are your projects?',
+      'projects',
+      'what projects',
+      'list your projects',
+      'show me your projects',
+      'tell me your projects',
+      'project list',
+      'your projects',
+      'portfolio projects',
+      'what have you built',
+      'what did you build',
+      'what have you made',
+      'what did you make'], 
+      answer: 'Check out my projects below: ArguMint, GitHub Repo Search Tool, Netflix Subscription Forecaster.' },
+      { keys:[
+      'argumint',
+      'argumint project',
+      'tell me about argumint',
+      'what is argumint?',
+      'describe argumint',
+      'argumint details',
+      'argumint ai',
+      'argumint tool'],
+      answer: 'ArguMint: an interactive, AI-powered assistant that analyzes user-submitted arguments using research papers from Semantic Scholar and provides structured, critical feedback using a local LLM. Designed as a browser-based app with Streamlit, ArguMint helps users strengthen their reasoning by grounding claims in actual research. (Simpler RAG)' },
+      { keys:[
+      'GitHub Repo Search Tool',
+      'GitHub Repo Search Tool project',
+      'tell me about GitHub Repo Search Tool',
+      'what is GitHub Repo Search Tool?',
+      'describe GitHub Repo Search Tool',
+      'GitHub Repo Search Tool details',
+      'GitHub Repo Search Tool',
+      'GitHub repo search tool'],
+      answer: 'GitHub Repo Search Tool: web-based application built with Flask and Bootstrap that allows users to search GitHub repositories by keyword, view key metadata (stars, forks, descriptions), and save selected repositories as favorites.' },
+      { keys:['where do you study','school','university','college','where do you go to school','where do you study?'],
+      answer: 'I am currently a student at the University of Waterloo, pursuing a degree in Computational Mathematics.' },
+      { keys:['what is your major','major','what do you study','what are you studying','what is your field of study'],
+      answer: 'I am majoring in Computational Mathematics, which combines computer science and mathematical principles to solve complex problems.' },
+      { keys:['how can i contact you','contact','how to reach you','email'],
+      answer: 'You can contact me via email at jasvinkaur@uwaterloo.ca.' },
+      { keys:['help','what can you do','how to use you','how do you work','how do you function'],
+      answer: 'You can ask me questions about my background, experience, and projects. Just type your question in the input box and hit send!' },
+      { keys:['joke','tell me a joke','make me laugh'],
+      answer: "Why do programmers prefer dark mode? Because light attracts bugs! 🐛" },
+      { keys: ['quote','inspire me','give me a quote'],
+      answer: "The best way to predict the future is to invent it. - Alan Kay" },
+      { keys: ['fact about you','tell me something about you','something about you'],
+      answer: "I love combining AI with real-world applications to create impactful solutions! 🤖" },
+      { keys: ['hobby','hobbies','what do you do for fun','what are your hobbies'],
+      answer: "I enjoy hiking, watching shows, coffee, pickleball, and exploring new technologies in my free time!" },
+      { keys: ['skills','what are your skills','list your skills','your skills'],
+      answer: "My skills include Python, Docker, FastAPI, HTML/CSS/js, React, Flask, MySQL, Figma, Machine Learning, Data Analysis, and Cloud Computing." },
+      { keys: ['projects','what projects have you worked on','your projects'],
+      answer: "I've worked on several projects, including ArguMint, GitHub Repo Search Tool, and Netflix Subscription Forecaster." },
+      { keys: ['internships','where have you interned','your internships'],
+      answer: "I've interned at Nokia as Full Stack ML/AI Intern, Innovate4good as an AI Developer Intern and at Microsoft Azure as a Data Scientist Intern." },
+      { keys: ['languages','programming languages','what programming languages do you know'],
+      answer: "I am proficient in Python, JavaScript, HTML/CSS, and have experience with SQL." },
+      { keys: ['Languages you speak','what languages do you speak','spoken languages'],
+      answer: "I am fluent in English and Hindi." },
+      { keys: ['graduation year','when will you graduate','graduation'],
+      answer: "I am expected to graduate in 2027." },
+      { keys:['thank you','thanks','thx','ty','appreciate it'],
+      answer: "You're welcome! 😊" }
+    ];
 
-      // Re-append in new order
-      cards.forEach(card => container.appendChild(card));
+    /***** NAV: highlight on scroll (small behavior) *****/
+    // (nav is simple anchor links; the header is sticky)
+
+    /***** CHAT: UI logic (local predefined responses + fallback) *****/
+    const chatLog = document.getElementById('chat-log');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const suggestions = document.getElementById('suggestions');
+
+    function addMessage(text, sender){
+      const d = document.createElement('div');
+      d.className = 'msg ' + (sender === 'user' ? 'user' : 'bot');
+      d.textContent = text;
+      const wrapper = document.createElement('div');
+      wrapper.style.display = 'flex';
+      wrapper.style.justifyContent = sender === 'user' ? 'flex-end' : 'flex-start';
+      wrapper.appendChild(d);
+      chatLog.appendChild(wrapper);
+      chatLog.scrollTop = chatLog.scrollHeight;
     }
 
-    // Shuffle every 7 seconds automatically
-    setInterval(shuffleCards, 7000);
+    // helper to match predefined
+    function findPredefined(q){
+      const t = q.toLowerCase();
+      for(const p of PREDEFINED_QS){
+        for(const k of p.keys){ if(t.includes(k)) return p.answer }
+      }
+      return null;
+    }
+
+    async function handleSend(){
+      const q = chatInput.value.trim();
+      if(!q) return;
+      addMessage(q, 'user');
+      chatInput.value = '';
+
+      const p = findPredefined(q);
+      if(p){
+        // simulated thinking delay
+        setTimeout(()=> addMessage(p, 'bot'), 450);
+        return;
+      }
+
+      // fallback (static): no remote LLM on GitHub Pages
+      setTimeout(()=> addMessage("I'm still learning! 😊 Ask me about my projects or experience.", 'bot'), 600);
+    }
+
+    chatSend.addEventListener('click', handleSend);
+    chatInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') handleSend() });
+
+    // suggestions clickable
+    suggestions.querySelectorAll('.suggestion').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        chatInput.value = el.dataset.q;
+        handleSend();
+      })
+    });
+
+    /***** PROJECTS: render deck and perform "human-like" shuffle animation *****
+           Approach: keep a positioned deck where each card has polar coordinates around center.
+           Shuffle sequence:
+            1) Gather all cards to a slightly fanned overlapping stack at center with random rotate.
+            2) Perform a quick interleaving shuffle animation (simulate riffle by quickly changing z-index & small offsets)
+            3) Spread cards back to evenly spaced positions in the deck (grid-like) but keep slight randomness.
+    *****/
+    const deck = document.getElementById('deck');
+
+    // create card elements
+    function createCardEl(p, i){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'project-wrapper';
+      wrapper.dataset.id = p.id;
+
+      const card = document.createElement('div'); card.className = 'project-card';
+      const inner = document.createElement('div'); inner.className = 'card-inner';
+
+      const front = document.createElement('div'); 
+      front.className = 'card-face card-front'; 
+      front.innerHTML = `<a href="${p.link}" target="_blank" rel="noopener" style="color:inherit; text-decoration:none">${p.title}</a>`;
+
+      const back = document.createElement('div'); 
+      back.className = 'card-face card-back'; 
+      back.innerHTML = `<a href="${p.link}" target="_blank" rel="noopener" style="color:inherit; text-decoration:none">${p.desc}</a>`;
+
+      inner.appendChild(front); inner.appendChild(back);
+      card.appendChild(inner); wrapper.appendChild(card);
+      return wrapper;
+    }
+
+    // initial render
+    PROJECTS.forEach((p,i)=>{
+      const el = createCardEl(p,i);
+      deck.appendChild(el);
+    });
+
+    // helper: compute spread positions (arranged in a subtle arc)
+    function computePositions(){
+      const rect = deck.getBoundingClientRect();
+      const cx = rect.width/2; const cy = rect.height/2;
+      const n = deck.children.length;
+      const spread = Math.min(26, Math.max(10, 80 - n*6));
+      const positions = [];
+      const baseX = rect.width/2; const baseY = rect.height/2;
+
+      // arrange in a gentle horizontal fan
+      const totalW = Math.min(rect.width*0.8, n*220);
+      const start = (rect.width - totalW)/2;
+      for(let i=0;i<n;i++){
+        const x = start + (i*(totalW/(n-1||1)));
+        const y = cy + Math.sin((i/n)*Math.PI - Math.PI/2)*12; // small wave
+        const rot = (i - (n-1)/2) * 4; // gentle rotation
+        positions.push({x,y,rot});
+      }
+      return positions;
+    }
+
+    // apply positions (with transform using translate from center)
+    function placeCards(){
+      const rect = deck.getBoundingClientRect();
+      const positions = computePositions();
+      const children = Array.from(deck.children);
+      children.forEach((wrap, i)=>{
+        const pos = positions[i];
+        // convert deck-relative x,y to translate from center (since wrapper at 50%/50%)
+        const tx = pos.x - rect.width/2;
+        const ty = pos.y - rect.height/2;
+        wrap.style.transition = 'transform 800ms cubic-bezier(.2,.9,.2,1)';
+        wrap.style.transform = `translate(${tx}px, ${ty}px) rotate(${pos.rot}deg)`;
+      });
+    }
+
+    // gather to center stacked with random rotation
+    function gatherStack(){
+      const children = Array.from(deck.children);
+      children.forEach((wrap,i)=>{
+        const r = (Math.random()*50 - 25);
+        wrap.style.transition = 'transform 420ms ease';
+        wrap.style.transform = `translate(0px, 0px) rotate(${r}deg)`;
+        wrap.style.zIndex = 200 + i;
+      });
+    }
+
+    // riffle-like interleave simulation: rapid small offsets + z-index swaps
+    function riffleShuffle(){
+      const children = Array.from(deck.children);
+      const n = children.length;
+      // random interleave order
+      const order = children.map((c,i)=>i).sort(()=>Math.random()-0.5);
+      // apply quick small jitter and z index changes
+      order.forEach((idx, k)=>{
+        const el = children[idx];
+        setTimeout(()=>{
+          el.style.transition = 'transform 180ms ease';
+          const dx = (Math.random()*40 - 20);
+          const dy = (Math.random()*20 - 10);
+          const rot = (Math.random()*30 - 15);
+          el.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+          el.style.zIndex = 300 + k;
+        }, k*60);
+      });
+
+      // after short time, settle back to center stack
+      setTimeout(()=>{
+        children.forEach((el,i)=>{ el.style.transition='transform 300ms ease'; el.style.transform='translate(0px,0px) rotate('+(Math.random()*10-5)+'deg)'; });
+      }, order.length*60 + 200);
+    }
+
+    // one complete shuffle sequence (gather -> riffle -> spread)
+    function humanShuffleSequence(){
+      gatherStack();
+      setTimeout(()=>{ riffleShuffle(); }, 450);
+      setTimeout(()=>{ // after riffle, randomize DOM order and place
+        // randomize order in DOM
+        const nodes = Array.from(deck.children);
+        const shuffled = nodes.sort(()=>Math.random()-0.5);
+        shuffled.forEach(n=> deck.appendChild(n));
+        placeCards();
+      }, 1200);
+    }
+
+    // initial layout then start shuffling every 6s
+    window.addEventListener('load', ()=>{
+      // center wrappers at 50%/50% initially
+      Array.from(deck.children).forEach(w=>{ w.style.left='50%'; w.style.top='50%'; w.style.transform='translate(0,0)'; });
+      placeCards();
+      setTimeout(humanShuffleSequence, 900);
+      setInterval(humanShuffleSequence, 6000);
+    });
+
+    // ensure deck re-layout on resize
+    window.addEventListener('resize', ()=>{ placeCards(); });
+
   </script>
 </body>
 </html>
